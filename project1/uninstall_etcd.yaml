@@ -9,8 +9,3 @@
       include_tasks: "{{ item }}"
       loop:
         - subtasks/clean_up.yaml
-  
-  handlers:
-    - name: Reload systemd
-      systemd:
-        daemon_reload: yes

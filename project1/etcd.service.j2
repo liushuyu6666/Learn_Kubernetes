@@ -3,7 +3,16 @@ Description=etcd
 
 [Service]
 ExecStart=/tmp/etcd-download-test/etcd
+
+{% if architecture_type == 'amd64' %}
 Restart=always
+{% endif %}
+
+{% if architecture_type == 'arm64' %}
+Restart=on-failure
+RestartSec=5
+Environment=ETCD_UNSUPPORTED_ARCH=arm64
+{% endif %}
 
 [Install]
 WantedBy=multi-user.target

@@ -4,7 +4,8 @@
   - [Installing and uninstall `etcd`](#installing-and-uninstall-etcd)
   - [Other Operations](#other-operations)
 - [Knowledge](#knowledge)
-- [TODO](#todo)
+- [Troubleshooting](#troubleshooting)
+  - [Device or resource busy:](#device-or-resource-busy)
 
 # Overview
 This project installs `etcd` v3.4.16 (with the default `etcdctl`) on an Ubuntu Desktop (64-bit x86) or a Raspberry Pi (64-bit ARM), following the official [v3.4.16 release instructions](https://github.com/etcd-io/etcd/releases/tag/v3.4.16). Please note that this project may require updates for newer release versions.
@@ -77,5 +78,22 @@ This command will display the PID associated with the `etcd` process listening o
 # Knowledge
 When install `etcd`, both `etcdctl` client and a gRPC API are installed. The gRPC API is used by `etcd` for its communication between clients and the `etcd` server.
 
-# TODO
-`sudo systemctl start etcd` cannot work on Raspberry Pi
+# Troubleshooting
+## Device or resource busy:
+When encountering the 'Error loading unit file 'etcd': System.Error.EBUSY' on Raspberry Pi, follow these steps to resolve the issue:
+1. Update the `etcd.service` template with the following lines to prevent the error:
+```bash
+[Service]
+ExecStart=/tmp/etcd-download-test/etcd
+Restart=on-failure
+RestartSec=5
+Environment=ETCD_UNSUPPORTED_ARCH=arm64
+```
+   * `Restart=on-failure` specifies that the service should be restarted only if it exits with a non-zero status code, indicating a failure. It doesn't restart on normal, clean exits (status code 0).
+   * `RestartSec=5` sets a delay of 5 seconds between service restarts. If the service fails and `Restart=on-failure` is triggered, it waits for 5 seconds before attempting to restart the service. This can prevent rapid restart loops in case of a failure.
+   * `Restart=always` specifies that the service should be restarted regardless of the exit status. Whether the service exits with a success (status code 0) or failure (non-zero status code), it will be restarted.
+
+2. Reload `systemd` to apply the changes:
+```bash
+sudo systemctl daemon-reload
+```

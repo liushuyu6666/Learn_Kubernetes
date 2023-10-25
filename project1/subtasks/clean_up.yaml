@@ -30,5 +30,6 @@
   file:
     path: "/etc/systemd/system/etcd.service"
     state: absent
-  notify:
-    - Reload systemd
+
+- name: Reload systemd
+  command: systemctl daemon-reload
