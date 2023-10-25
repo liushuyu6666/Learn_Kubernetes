@@ -1,38 +1,15 @@
 ---
 - name: Install etcd service
-  hosts: ubuntu_desktop
-  gather_facts: no
+  hosts: raspberrypi2 # Change hosts
+  gather_facts: true
   become: true
 
   tasks:
-    - name: Include configurations from config.yaml
-      include_vars:
-        file: config.yaml
-        name: configs
-
-    # Remove existing etcd
-    - name: Check if etcd is running
-      command: systemctl is-active etcd
-      register: etcd_status
-      changed_when: false
-      failed_when: false
-      ignore_errors: true
-
-    - name: Stop etcd service if running
-      systemd:
-        name: etcd
-        state: stopped
-      when: etcd_status.stdout == "active"
-
-    - name: Remove /tmp/etcd-download-test folder
-      file:
-        path: /tmp/etcd-download-test
-        state: absent
-
-    - name: Clean up previous etcd installation files
-      file:
-        path: "/tmp/etcd-{{ configs.etcd_version }}-linux-amd64.tar.gz"
-        state: absent
+    - name: Include task files
+      include_tasks: "{{ item }}"
+      loop:
+        - subtasks/import_configs.yaml
+        - subtasks/clean_up.yaml
 
     - name: Create a temporary directory for etcd download
       file:
@@ -42,20 +19,22 @@
     # The Url might need to be updated
     - name: Download etcd binary
       get_url:
-        url: "{{ configs.download_url }}/{{ configs.etcd_version }}/etcd-{{ configs.etcd_version }}-linux-amd64.tar.gz"
-        dest: "/tmp/etcd-{{ configs.etcd_version }}-linux-amd64.tar.gz"
+        url: "{{ configs.download_url }}/{{ configs.etcd_version }}/etcd-{{ configs.etcd_version }}-linux-{{ architecture_type }}.tar.gz"
+        dest: "/tmp/etcd-{{ configs.etcd_version }}-linux-{{ architecture_type }}.tar.gz"
 
     - name: Extract etcd binary
-      command: "tar xzvf /tmp/etcd-{{ configs.etcd_version }}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1"
+      command: "tar xzvf /tmp/etcd-{{ configs.etcd_version }}-linux-{{ architecture_type }}.tar.gz -C /tmp/etcd-download-test --strip-components=1"
 
     - name: Remove the downloaded archive
       file:
-        path: "/tmp/etcd-{{ configs.etcd_version }}-linux-amd64.tar.gz"
+        path: "/tmp/etcd-{{ configs.etcd_version }}-linux-{{ architecture_type }}.tar.gz"
         state: absent
 
     - name: Check etcd version
       command: "/tmp/etcd-download-test/etcd --version"
       register: etcd_version_output
+      environment:
+        ETCD_UNSUPPORTED_ARCH: "{{ 'arm64' if architecture_type == 'arm64' else '' }}"
 
     - name: Print etcd version
       debug:
@@ -68,11 +47,6 @@
     - name: Print etcdctl version
       debug:
         var: etcdctl_version_output.stdout
-
-    - name: Remove etcd.service if exists
-      file:
-        path: "/etc/systemd/system/etcd.service"
-        state: absent
     
     - name: Copy etcd.service unit file
       template:

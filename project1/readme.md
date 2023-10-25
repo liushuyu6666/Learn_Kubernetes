@@ -1,19 +1,33 @@
 - [Overview](#overview)
+  - [Project Structure](#project-structure)
 - [Usage Guide](#usage-guide)
-  - [Installing and uninstall `etcd` on Ubuntu Desktop](#installing-and-uninstall-etcd-on-ubuntu-desktop)
+  - [Installing and uninstall `etcd`](#installing-and-uninstall-etcd)
   - [Other Operations](#other-operations)
+- [Knowledge](#knowledge)
+- [TODO](#todo)
 
 # Overview
-This project installs `etcd` v3.4.16 (with the default `etcdctl`) on an Ubuntu Desktop separately, following the official [v3.4.16 release instructions](https://github.com/etcd-io/etcd/releases/tag/v3.4.16). Please note that this project may require updates for newer release versions.
+This project installs `etcd` v3.4.16 (with the default `etcdctl`) on an Ubuntu Desktop (64-bit x86) or a Raspberry Pi (64-bit ARM), following the official [v3.4.16 release instructions](https://github.com/etcd-io/etcd/releases/tag/v3.4.16). Please note that this project may require updates for newer release versions.
 
+* Architecture: 64-bit x86 (Intel/AMD) or 64-bit ARM.
 * Download Source: [https://storage.googleapis.com/etcd](https://storage.googleapis.com/etcd)
 * Release Version: v3.4.16
 * Installation Directory: `/tmp/etcd-download-test/`
 
-After downloading and extracting the binary, etcd will be integrated with systemd for management.
+After downloading and extracting the binary, `etcd` will be integrated with `systemd` for management.
+
+## Project Structure
+1. `subtasks/`: This directory contains subtasks that are included in the main playbooks.
+   1. `import_configs.yaml`: Imports configurations and determines the architecture type.
+   2. `clean_up.yaml`: Performs clean-up tasks to remove any remnants.
+2. `install_etcd`: The main entry point for the installation of `etcd`.
+3. `uninstall_etcd`: The main entry point for uninstalling `etcd`.
+4. `inventory`: Contains information about hosts and their configurations.
+5. `etcd.service.j2`: A Jinja2 template for the `etcd.service` file used with `systemd` for managing the `etcd` service.
+6. `config.example.yaml` and `config.yaml`: These files store configuration details, including credentials, for your project. `config.example.yaml` is typically used as a template or reference, while `config.yaml` contains the actual configuration.
 
 # Usage Guide
-## Installing and uninstall `etcd` on Ubuntu Desktop
+## Installing and uninstall `etcd`
 1. Setup SSH connections as instructed in the "readme" file.
 2. Update `inventory` with your specific configurations (e.g., `ansible_host`, `ansible_ssh_user`, `ansible_ssh_private_key_file`).
 3. Duplicate `config.example.yaml` and rename the copy file to `config.yaml`. 
@@ -23,11 +37,12 @@ After downloading and extracting the binary, etcd will be integrated with system
     ```bash
     ansible all -i inventory -m ping
     ```
-   2. Install `etcd` on Ubuntu Desktop by running:
+   2. Change `hosts` on `install_etcd.yaml` or `uninstall_etcd.yaml` file.
+   3. Install `etcd` by running:
     ```bash
     ansible-playbook -i inventory install_etcd.yaml
     ```
-   3. Uninstall `etcd` by running:
+   4. Uninstall `etcd` by running:
     ```bash
     ansible-playbook -i inventory uninstall_etcd.yaml
     ```
@@ -57,3 +72,10 @@ If you need to verify the etcd process by its port, you can use the following co
 sudo lsof -n -i :2379
 ```
 This command will display the PID associated with the `etcd` process listening on port 2379.
+
+
+# Knowledge
+When install `etcd`, both `etcdctl` client and a gRPC API are installed. The gRPC API is used by `etcd` for its communication between clients and the `etcd` server.
+
+# TODO
+`sudo systemctl start etcd` cannot work on Raspberry Pi

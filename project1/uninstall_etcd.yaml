@@ -1,39 +1,16 @@
 ---
 - name: Uninstall etcd service
-  hosts: ubuntu_desktop
-  gather_facts: no
+  hosts: raspberrypi2 # Change hosts
+  gather_facts: true
   become: true
 
   tasks:
-    - name: Include configurations from config.yaml
-      include_vars:
-        file: config.yaml
-        name: configs
-
-    - name: Check if etcd is running
-      command: systemctl is-active etcd
-      register: etcd_status
-      changed_when: false
-      failed_when: false
-      ignore_errors: true
-
-    - name: Stop etcd service if running
+    - name: Include task files
+      include_tasks: "{{ item }}"
+      loop:
+        - subtasks/clean_up.yaml
+  
+  handlers:
+    - name: Reload systemd
       systemd:
-        name: etcd
-        state: stopped
-      when: etcd_status.stdout == "active"
-
-    - name: Remove /tmp/etcd-download-test folder
-      file:
-        path: /tmp/etcd-download-test
-        state: absent
-    
-    - name: Clean up previous etcd installation files
-      file:
-        path: "/tmp/etcd-{{ configs.etcd_version }}-linux-amd64.tar.gz"
-        state: absent
-
-    - name: Remove etcd.service if exists
-      file:
-        path: "/etc/systemd/system/etcd.service"
-        state: absent
+        daemon_reload: yes
