@@ -12,8 +12,8 @@ This project is aimed at practical Kubernetes learning. It involves the utilizat
 For effective management, SSH access is established from the MacBook to both the master and worker nodes.
 
 Checklist:
-1. MacBook x1 (to control both master and worker nodes)
-2. Ubuntu Desktop x1 (master node). user: 'ubuntu_desktop'.
+1. MacBook x1 (to control both master and worker nodes); Architecture: 64-bit x86 (Intel/AMD).
+2. Ubuntu Desktop x1 (master node). user: 'ubuntu_desktop'; Architecture: ARM 64-bit.
 3. Raspberry Pi x3 (worker node). user: 'raspberrypi1', 'raspberrypi2' and 'raspberrypi3'.
 
 # How to use
