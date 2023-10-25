@@ -1,0 +1,9 @@
+[Unit]
+Description=etcd
+
+[Service]
+ExecStart=/tmp/etcd-download-test/etcd
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
