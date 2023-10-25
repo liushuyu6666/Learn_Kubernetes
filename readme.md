@@ -3,6 +3,8 @@
   - [Setting Up SSH Access](#setting-up-ssh-access)
     - [Ubuntu Desktop Configuration](#ubuntu-desktop-configuration)
     - [Raspberry Pi Setup Guide](#raspberry-pi-setup-guide)
+- [Projects overview](#projects-overview)
+  - [Project 1](#project-1)
 
 # Overview
 This project is aimed at practical Kubernetes learning. It involves the utilization of a single Ubuntu Desktop (64-bit) laptop as the master node and three Raspberry Pi devices running Ubuntu Server (64-bit) as worker nodes. Additionally, a MacBook is required for remote control and configuration of both the master node (Ubuntu Desktop) and the worker nodes (Raspberry Pi).
@@ -21,3 +23,7 @@ For SSH access from the MacBook to the Ubuntu Desktop (master nodes) for control
 
 ### Raspberry Pi Setup Guide
 For SSH access from the MacBook to the Raspberry Pi devices (worker nodes) to control and configure them, please follow the instructions provided [here](https://github.com/liushuyu6666/Learn_Ansible/blob/master/readme.md#raspberry-pi-setup-guide). Ensure that the username on three Raspberry Pi devices should be 'raspberrypi1', 'raspberrypi2' and 'raspberrypi3'.
+
+# Projects overview
+## Project 1
+Perform individual installations and removals of the `etcd` component, while gaining insights into `etcd` functionality.
