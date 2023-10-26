@@ -5,6 +5,7 @@
     - [Raspberry Pi Setup Guide](#raspberry-pi-setup-guide)
 - [Projects overview](#projects-overview)
   - [Project 1](#project-1)
+- [References](#references)
 
 # Overview
 This project is aimed at practical Kubernetes learning. It involves the utilization of a single Ubuntu Desktop (64-bit) laptop as the master node and three Raspberry Pi devices running Ubuntu Server (64-bit) as worker nodes. Additionally, a MacBook is required for remote control and configuration of both the master node (Ubuntu Desktop) and the worker nodes (Raspberry Pi).
@@ -27,3 +28,7 @@ For SSH access from the MacBook to the Raspberry Pi devices (worker nodes) to co
 # Projects overview
 ## Project 1
 Perform individual installations and removals of the `etcd` component, while gaining insights into `etcd` functionality.
+
+
+# References
+1. [Kubernetes the Hard Way Raspberry Pi](https://github.com/robertojrojas/kubernetes-the-hard-way-raspberry-pi)
