@@ -27,8 +27,11 @@ For SSH access from the MacBook to the Raspberry Pi devices (worker nodes) to co
 
 # Projects overview
 ## Project 1
-Perform individual installations and removals of the `etcd` component, while gaining insights into `etcd` functionality.
-
+* `64-bit x86`
+* `64-bit ARM`
+* `systemd`
+* Ansible
+* `etcd`
 
 # References
 1. [Kubernetes the Hard Way Raspberry Pi](https://github.com/robertojrojas/kubernetes-the-hard-way-raspberry-pi)

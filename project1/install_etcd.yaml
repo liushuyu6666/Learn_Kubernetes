@@ -1,6 +1,6 @@
 ---
 - name: Install etcd service
-  hosts: ubuntu_desktop # Change hosts
+  hosts: raspberrypi3 # Change hosts
   gather_facts: true
   become: true
 
@@ -50,7 +50,7 @@
     
     - name: Copy etcd.service unit file
       template:
-        src: etcd.service.j2
+        src: template/etcd.service.j2
         dest: /etc/systemd/system/etcd.service
         owner: root
         group: root

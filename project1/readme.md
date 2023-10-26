@@ -10,12 +10,17 @@
 # Overview
 This project installs `etcd` v3.4.16 (with the default `etcdctl`) on an Ubuntu Desktop (64-bit x86) or a Raspberry Pi (64-bit ARM), following the official [v3.4.16 release instructions](https://github.com/etcd-io/etcd/releases/tag/v3.4.16). Please note that this project may require updates for newer release versions.
 
+After downloading and extracting the binary, `etcd` will be integrated with `systemd` for management.
+
 * Architecture: 64-bit x86 (Intel/AMD) or 64-bit ARM.
 * Download Source: [https://storage.googleapis.com/etcd](https://storage.googleapis.com/etcd)
 * Release Version: v3.4.16
 * Installation Directory: `/tmp/etcd-download-test/`
-
-After downloading and extracting the binary, `etcd` will be integrated with `systemd` for management.
+* This project aims to achieve the following objectives:
+  1. Gain insights into the distinctions between `amd64` and `arm64` for Kubernetes installation and management.
+  2. Develop proficiency in utilizing `systemd`.
+  3. Acquire foundational knowledge of Ansible.
+  4. Troubleshoot some potential issues.
 
 ## Project Structure
 1. `subtasks/`: This directory contains subtasks that are included in the main playbooks.
@@ -24,7 +29,8 @@ After downloading and extracting the binary, `etcd` will be integrated with `sys
 2. `install_etcd`: The main entry point for the installation of `etcd`.
 3. `uninstall_etcd`: The main entry point for uninstalling `etcd`.
 4. `inventory`: Contains information about hosts and their configurations.
-5. `etcd.service.j2`: A Jinja2 template for the `etcd.service` file used with `systemd` for managing the `etcd` service.
+5. `template/`: Stores templates.
+   1. `etcd.service.j2`: A Jinja2 template for the `etcd.service` file used with `systemd` for managing the `etcd` service.
 6. `config.example.yaml` and `config.yaml`: These files store configuration details, including credentials, for your project. `config.example.yaml` is typically used as a template or reference, while `config.yaml` contains the actual configuration.
 
 # Usage Guide
@@ -76,7 +82,8 @@ This command will display the PID associated with the `etcd` process listening o
 
 
 # Knowledge
-When install `etcd`, both `etcdctl` client and a gRPC API are installed. The gRPC API is used by `etcd` for its communication between clients and the `etcd` server.
+1. When installing `etcd`, it includes both the `etcdctl` client and a gRPC API. The gRPC API serves as the communication interface for interactions between clients and the `etcd` server.
+2. Integrate `etcd` with `systemd` by creating an 'etcd.service' file in the '/etc/systemd/system/' directory. Remember to reload 'systemd' afterward.
 
 # Troubleshooting
 ## Device or resource busy:
@@ -93,7 +100,7 @@ Environment=ETCD_UNSUPPORTED_ARCH=arm64
    * `RestartSec=5` sets a delay of 5 seconds between service restarts. If the service fails and `Restart=on-failure` is triggered, it waits for 5 seconds before attempting to restart the service. This can prevent rapid restart loops in case of a failure.
    * `Restart=always` specifies that the service should be restarted regardless of the exit status. Whether the service exits with a success (status code 0) or failure (non-zero status code), it will be restarted.
 
-2. Reload `systemd` to apply the changes:
+1. Reload `systemd` to apply the changes:
 ```bash
 sudo systemctl daemon-reload
 ```
