@@ -1,6 +1,6 @@
 ---
 - name: Uninstall etcd service
-  hosts: raspberrypi3 # Change hosts
+  hosts: ubuntu_desktop # Change hosts
   gather_facts: true
   become: true
 
