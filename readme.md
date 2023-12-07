@@ -3,6 +3,7 @@
   - [Setting Up SSH Access](#setting-up-ssh-access)
     - [Ubuntu Desktop Configuration](#ubuntu-desktop-configuration)
     - [Raspberry Pi Setup Guide](#raspberry-pi-setup-guide)
+  - [Setting Up Ansible](#setting-up-ansible)
 - [Projects overview](#projects-overview)
   - [Project 1](#project-1)
 - [References](#references)
@@ -24,6 +25,9 @@ For SSH access from the MacBook to the Ubuntu Desktop (master nodes) for control
 
 ### Raspberry Pi Setup Guide
 For SSH access from the MacBook to the Raspberry Pi devices (worker nodes) to control and configure them, please follow the instructions provided [here](https://github.com/liushuyu6666/Learn_Ansible/blob/master/readme.md#raspberry-pi-setup-guide). Ensure that the username on three Raspberry Pi devices should be 'raspberrypi1', 'raspberrypi2' and 'raspberrypi3'.
+
+## Setting Up Ansible
+Ansible should be installed on the MacBook; there's no need to install it on the Raspberry Pi or the Ubuntu Desktop laptop.
 
 # Projects overview
 ## Project 1
