@@ -1,5 +1,5 @@
 - [Overview](#overview)
-  - [Project Structure](#project-structure)
+- [Project Structure](#project-structure)
 - [Usage Guide](#usage-guide)
   - [Installing and uninstall `etcd`](#installing-and-uninstall-etcd)
   - [Other Operations](#other-operations)
@@ -22,7 +22,7 @@ After downloading and extracting the binary, `etcd` will be integrated with `sys
   3. Acquire foundational knowledge of Ansible.
   4. Troubleshoot some potential issues.
 
-## Project Structure
+# Project Structure
 1. `subtasks/`: This directory contains subtasks that are included in the main playbooks.
    1. `import_configs.yaml`: Imports configurations and determines the architecture type.
    2. `clean_up.yaml`: Performs clean-up tasks to remove any remnants.
