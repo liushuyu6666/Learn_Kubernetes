@@ -17,10 +17,11 @@ After downloading and extracting the binary, `etcd` will be integrated with `sys
 * Release Version: v3.4.16
 * Installation Directory: `/tmp/etcd-download-test/`
 * This project aims to achieve the following objectives:
-  1. Gain insights into the distinctions between `amd64` and `arm64` for Kubernetes installation and management.
-  2. Develop proficiency in utilizing `systemd`.
-  3. Acquire foundational knowledge of Ansible.
-  4. Troubleshoot some potential issues.
+  1. Check the configuration and connection in the cluster.
+  2. Gain insights into the distinctions between `amd64` and `arm64` for Kubernetes installation and management.
+  3. Develop proficiency in utilizing `systemd`.
+  4. Acquire foundational knowledge of Ansible.
+  5. Troubleshoot some potential issues.
 
 # Project Structure
 1. `subtasks/`: This directory contains subtasks that are included in the main playbooks.
@@ -39,12 +40,12 @@ After downloading and extracting the binary, `etcd` will be integrated with `sys
 2. Update `inventory` with your specific configurations (e.g., `ansible_host`, `ansible_ssh_user`, `ansible_ssh_private_key_file`).
 3. Duplicate `config.example.yaml` and rename the copy file to `config.yaml`. 
    1. Visit the [official etcd releases page](https://github.com/etcd-io/etcd/releases) to find the latest release version. If needed, update specific configurations, such as `etcd_version` and `download_url`, in the `config.yaml` file.
-4. Navigate to the "project1" folder.
+4. Open the terminal and then navigate to the "1-start" folder.
    1. Check the connectivity to the Ubuntu Desktop using the following command:
     ```bash
     ansible all -i inventory -m ping
     ```
-   2. Change `hosts` on `install_etcd.yaml` or `uninstall_etcd.yaml` file.
+   2. Modify the `hosts` entry in the `install_etcd.yaml` or `uninstall_etcd.yaml` file to specify the device on which you wish to install or uninstall `etcd`.
    3. Install `etcd` by running:
     ```bash
     ansible-playbook -i inventory install_etcd.yaml
