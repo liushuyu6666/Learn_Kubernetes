@@ -1,3 +1,9 @@
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Usage Guide](#usage-guide)
+  - [Installing `kubectl`](#installing-kubectl)
+
+
 # Overview
 This project facilitates the installation of `kubectl` with the latest version on an Ubuntu Desktop (64-bit x86) and on three Raspberry Pis (64-bit ARM), adhering to [the official instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/).
 
