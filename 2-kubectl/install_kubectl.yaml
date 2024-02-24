@@ -1,0 +1,64 @@
+---
+- name: Install pod
+  hosts: all # Change hosts
+  gather_facts: true
+  become: yes # sudo
+
+  tasks:
+    - name: Include header files
+      include_tasks: "{{ item }}"
+      loop:
+        - ../headers/determine_arch.yaml
+
+    - name: Get the kubectl version
+      shell: "curl -L -s https://dl.k8s.io/release/stable.txt"
+      register: kubectl_stable_version_output
+      changed_when: false
+      
+    - name: Print the kubectl version
+      debug:
+        var: kubectl_stable_version_output.stdout
+
+    - name: Create a temporary directory for the kubectl download
+      file:
+        path: "/tmp/downloads"
+        state: directory
+
+    - name: Download the kubectl binary file
+      get_url: # The module for downloading files 
+        url: "https://dl.k8s.io/release/{{ kubectl_stable_version_output.stdout }}/bin/linux/{{ architecture_type }}/kubectl"
+        dest: "/tmp/downloads/"
+
+    - name: Download the kubectl checksum file
+      get_url:
+        url: https://dl.k8s.io/release/{{ kubectl_stable_version_output.stdout }}/bin/linux/{{ architecture_type }}/kubectl.sha256
+        dest: "/tmp/downloads/"
+
+    - name: Check SHA256 checksum of kubectl binary
+      shell: "echo \"$(cat kubectl.sha256)  kubectl\" | sha256sum --check"
+      args:
+        chdir: "/tmp/downloads/"
+      register: sha256_output
+
+    - name: Fail the playbook if checksum verification fails
+      fail:
+        msg: "Checksum verification for kubectl binary failed: {{ sha256_output.stdout }}"
+      when: > # To escape the symbol :
+         sha256_output.stdout != "kubectl: OK"
+
+    - name: Install the kubectl
+      command: "sudo install -o root -g root -m 0755 /tmp/downloads/kubectl /usr/local/bin/kubectl"
+
+    - name: Check the kubectl version
+      command: "kubectl version --client"
+      register: kubectl_version_output
+
+    - name: Print the version
+      debug:
+        var: kubectl_version_output.stdout
+
+    - name: Remove the download folder
+      file:
+        path: "/tmp/downloads"
+        state: absent
+

@@ -1,0 +1,19 @@
+---
+- name: Determine architecture_type
+  set_fact:
+    architecture_type: |
+      {% if ansible_architecture == 'x86_64' -%}
+        amd64
+      {% elif ansible_architecture == 'aarch64' -%}
+        arm64
+      {% else %}
+        {{ raise("ansible_architecture is invalid") -}}
+      {% endif %}
+
+- name: Remove trailing newline from architecture_type
+  set_fact:
+    architecture_type: "{{ architecture_type | replace('\n', '') }}"
+
+- name: Print architecture_type
+  debug:
+    var: architecture_type
