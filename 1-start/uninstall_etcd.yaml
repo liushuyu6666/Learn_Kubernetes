@@ -1,6 +1,6 @@
 ---
 - name: Uninstall etcd service
-  hosts: ubuntu_desktop # Change hosts
+  hosts: all # Change hosts
   gather_facts: true
   become: true
 

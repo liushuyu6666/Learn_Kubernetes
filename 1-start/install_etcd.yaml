@@ -1,6 +1,6 @@
 ---
 - name: Install etcd service
-  hosts: ubuntu_desktop # Change hosts
+  hosts: all # Change hosts
   gather_facts: true
   become: true
 
@@ -9,6 +9,7 @@
       include_tasks: "{{ item }}"
       loop:
         - subtasks/import_configs.yaml
+        - ../headers/determine_arch.yaml
         - subtasks/clean_up.yaml
 
     - name: Create a temporary directory for etcd download
