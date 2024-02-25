@@ -1,11 +1,2 @@
 [ubuntu_desktop]
 master ansible_host=192.168.2.15 ansible_ssh_user=ubuntu_desktop ansible_ssh_private_key_file=~/.ssh/id_ed25519
-
-[raspberrypi1]
-worker1 ansible_host=192.168.2.55 ansible_ssh_user=raspberrypi1 ansible_ssh_private_key_file=~/.ssh/raspberrypi
-
-[raspberrypi2]
-worker2 ansible_host=192.168.2.54 ansible_ssh_user=raspberrypi2 ansible_ssh_private_key_file=~/.ssh/raspberrypi
-
-[raspberrypi3]
-worker3 ansible_host=192.168.2.56 ansible_ssh_user=raspberrypi3 ansible_ssh_private_key_file=~/.ssh/raspberrypi
