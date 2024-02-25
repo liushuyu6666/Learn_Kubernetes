@@ -18,6 +18,9 @@ Checklist:
 2. Ubuntu Desktop x1 (master node). user: 'ubuntu_desktop'; Architecture: ARM 64-bit.
 3. Raspberry Pi x3 (worker node). user: 'raspberrypi1', 'raspberrypi2' and 'raspberrypi3'.
 
+The diagram below illustrates the structure of the Kubernetes cluster:
+![structure](statics/structure_of_my_k8s_cluster.png)
+
 # How to use
 ## Setting Up SSH Access
 ### Ubuntu Desktop Configuration
